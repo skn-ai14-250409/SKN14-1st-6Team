@@ -6,33 +6,17 @@ from ui_result_table import show_results
 
 st.set_page_config(page_title="자동차 리콜 정보 시스템", layout="wide")
 
-# 🔧 전기차/하이브리드/내연차 구분 함수
+#  전기차/하이브리드/내연차 구분 함수
 def classify_ev_type(car_name):
     car_name = str(car_name).lower()
-    if any(ev in car_name for ev in ['ev', '아이오닉', '모델', 'ix', 'eq', 'bolt', 'leaf']):
+    if any(ev in car_name for ev in ['ev', '아이오닉', '모델', 'ix', 'eq', 'bolt', 'leaf']): # 리스트 안 이름이 포함됐을 경우 전기차를 리턴
         return '전기차'
-    elif any(hv in car_name for hv in ['hev', '하이브리드', 'hybrid', 'phev']):
+    elif any(hv in car_name for hv in ['hev', '하이브리드', 'hybrid', 'phev']): # 리스트 안 이름이 포함됐을 경우 하이브리드 리턴
         return '하이브리드'
     else:
         return '내연차'
 
-# 📅 날짜 보정 함수
-def normalize_date_range(date_range, min_date, max_date):
-    if isinstance(date_range, tuple) and len(date_range) == 2:
-        start, end = date_range
-
-        if start and not end:
-            return (start, max_date)
-        elif end and not start:
-            return (min_date, end)
-        elif start > end:
-            return (end, start)
-        else:
-            return (start, end)
-
-    return (min_date, max_date)
-
-# 📄 CSV 로드
+# 데이터 로드 및 전처리 함수
 @st.cache_data
 def load_data():
     df = pd.read_csv("한국교통안전공단_자동차결함 리콜현황_20231231.csv", encoding='cp949')
@@ -51,42 +35,35 @@ def load_data():
 
 df = load_data()
 
-# 🖥️ 메인 UI
-with st.container():
+# 💡 UI 설정
+with st.container(): # 그냥 설명창
     st.markdown("""
         <h1 style='text-align: center; color: #2C3E50;'> 자동차 리콜 정보 시스템</h1>
         <p style='text-align: center; color: gray;'>리콜 이력과 통계를 빠르게 검색하고 시각화하는 대시보드입니다.</p>
     """, unsafe_allow_html=True)
 
-with st.sidebar:
-    st.header("🔍 필터 조건")
+with st.sidebar: # 사이드바
+    st.header("🔍 필터 조건") # 이름
 
-    company = st.text_input("제조사")
-    car = st.text_input("차종 검색")
-    is_ev = st.selectbox("전기차 여부", ["전체", "전기차", "하이브리드", "내연차"])
-    is_di = st.selectbox("국내/해외 여부", ["전체", "국내", "해외"])
+    company = st.text_input("제조사") # 회사 검색창
+    car = st.text_input("차종 검색") # 차종을 검색창
+    is_ev = st.selectbox("전기차 여부", ["전체", "전기차", "하이브리드", "내연차"]) # 차량 운행 방식 선택창
+    is_di = st.selectbox("국내/해외 여부", ["전체", "국내", "해외"]) # 국내 해외 선택창
 
-    min_date = datetime.date(2000, 1, 1)
-    max_date = datetime.date(2024, 12, 31)
-    prod_date_range = st.date_input(
-        "생산 기간 범위",
-        (datetime.date(2010, 1, 1), datetime.date(2024, 12, 31)),
-        min_value=min_date,
-        max_value=max_date
-    )
+    min_date = datetime.date(2000, 1, 1) # 최소 날짜
+    max_date = datetime.date(2024, 12, 31) # 최소 날짜
+    prod_date_range = st.date_input("생산 기간 범위", (datetime.date(2010, 1, 1), datetime.date(2024, 12, 31)), min_value=min_date, max_value=max_date)
+    # prod_date_range에 datetime.date 객체가 튜플 형식으로 저장된 후 prod_date_range 변수 안에 저장됨
 
-    keyword = st.text_input("리콜 사유 키워드")
+    keyword = st.text_input("리콜 사유 키워드") # 키워드 검색창
 
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([2, 1]) # 검색과 초기화 버튼 위치 조정 코드
     with col1:
-        search_button = st.button('🔎 Explore')
+        search_button = st.button('검색')
     with col2:
-        reset_button = st.button('🔄 Reset')
+        reset_button = st.button('초기화') # 아직 미완성
 
-# 🎯 날짜 범위 보정
-prod_date_range = normalize_date_range(prod_date_range, min_date, max_date)
-
-# 필터 저장
+# 🎯 필터링 조건
 filters = {
     "company": company,
     "car": car,
@@ -96,7 +73,11 @@ filters = {
     "keyword": keyword
 }
 
-# 🔍 검색 버튼 눌렀을 때
+# 검색 버튼 동작 이건 한 번에 하나밖에 필터링 못함
+# 대충 입력 내용이 포함됐으면 전부 가져오도록 해주는 코드, 필터링 코드
+# ... (위 코드는 그대로 유지됨)
+
+# 🔍 검색 버튼 동작
 if search_button:
     filtered_df = df.copy()
 
@@ -121,10 +102,34 @@ if search_button:
     if filters['keyword']:
         filtered_df = filtered_df[filtered_df['keyword'].str.contains(filters['keyword'], na=False)]
 
+    # 📊 대시보드 시각화
     show_dashboard(filtered_df)
-    show_results(filtered_df)
 
-# 🔄 초기화 버튼 눌렀을 때
+    # 🧾 카드 형식 검색 결과 표시
+    st.subheader("📋 리콜 상세 결과")
+
+    if filtered_df.empty:
+        st.warning("검색 결과가 없습니다.")
+    else:
+        for i, row in filtered_df.iterrows():
+            with st.container():
+                st.markdown("---")
+                cols = st.columns([1, 4])
+
+                with cols[0]:
+                    st.image("https://via.placeholder.com/150x100.png?text=No+Image", width=150)
+
+                with cols[1]:
+                    st.markdown(f"### {row['company']} {row['car']}")
+                    st.markdown(f" **리콜 사유:** {row['keyword'][:100]}{'...' if len(row['keyword']) > 100 else ''}")
+                    st.markdown(f" **생산 기간:** {row['start_date'].date()} ~ {row['end_date'].date()}")
+                    st.markdown(f" **차량 유형:** {row['is_ev']}  /   **지역:** {row['is_di']}")
+
+
 if reset_button:
-    st.session_state.clear()
     st.rerun()
+
+
+
+
+
