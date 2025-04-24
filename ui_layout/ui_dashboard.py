@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_dashboard(df):
-    st.subheader("📊 리콜 요약")
+    st.subheader("리콜 요약")
 
     col1, col2, col3 = st.columns(3)
     col1.metric("총 리콜 건수", len(df))
