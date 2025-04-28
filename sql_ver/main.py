@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 import pandas as pd
 import datetime
@@ -36,37 +34,58 @@ def load_data():
 df = load_data()
 
 # UI
-with st.container():
-    st.markdown("""
-        <h1 style='text-align: center;'>자동차 리콜 정보 시스템</h1>
-        <p style='text-align: center; color: gray;'>MySQL에 저장된 리콜 이력과 통계를 조회합니다.</p>
-    """, unsafe_allow_html=True)
+# 엔터키 on_change용 함수
+def search():
+    st.session_state.search_triggered = True
 
+# 세션 상태 초기화
+if "search_triggered" not in st.session_state:
+    st.session_state.search_triggered = False
+
+# 사이드바 필터
 with st.sidebar:
     st.header("🔍 필터 조건")
-    company = st.text_input("제조사")
-    car = st.text_input("차종")
+
+    search_mode = st.selectbox(
+        "검색 방식 선택",
+        ["OR 검색", "AND 검색"],
+        index=0
+    )
+
+    unified_search = st.text_input(
+        "제조사 / 차명 / 리콜 사유 통합 검색",
+        key="unified_search",
+        on_change=search
+    )
+
     is_ev = st.selectbox("차량 유형", ["전체", "전기차", "내연차"])
     is_di = st.selectbox("국내/해외", ["전체", "국내", "해외"])
-    prod_date_range = st.date_input("생산 기간 범위", (datetime.date(2010, 1, 1), datetime.date(2024, 12, 31)))
-    keyword = st.text_input("리콜 사유 키워드")
+    prod_date_range = st.date_input("생산 기간 범위", (datetime.date(2000, 1, 1), datetime.date(2024, 12, 31)))
 
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([3, 1])
     with col1:
-        search_button = st.button('검색')
-    with col2:
         reset_button = st.button('초기화')
+    with col2:
+        search_button = st.button('검색')
 
 filters = {
-    "company": company,
-    "car": car,
+    "unified_search": st.session_state.get("unified_search", ""),
+    "search_mode": search_mode,
     "is_ev": is_ev,
     "is_di": is_di,
-    "prod_date_range": prod_date_range,
-    "keyword": keyword
+    "prod_date_range": prod_date_range
 }
 
-
+# =========================
+# 🚗 첫 화면 구성
+with st.container():
+    st.markdown("<h1 style='text-align: center; font-weight: bold;'>🚗 자동차 리콜 정보 시스템</h1>", unsafe_allow_html=True)
+    st.markdown(
+        "<p style='text-align: center; color: gray; font-size: 18px;'>제조사, 차종, 생산 기간 등으로 차량 리콜 이력을 손쉽게 검색하고, 통계까지 한눈에 확인하세요.</p>",
+        unsafe_allow_html=True)
+    if not (search_button or st.session_state.search_triggered):
+        show_dashboard(df)
+# =========================
 
 ################################ sumilee start #####################################
 import os
@@ -117,15 +136,33 @@ def fetch_naver_image(car_name: str) -> str:
 
 
 
-if search_button:
+if search_button or st.session_state.search_triggered:
     filtered_df = df.copy()
 
-    if filters['company']:
-        filtered_df = filtered_df[filtered_df['company'].str.contains(filters['company'], na=False)]
+    if filters['unified_search']:
+        search_words = [word.strip() for word in filters['unified_search'].split(" ") if word.strip()]
 
-    if filters['car']:
-        filtered_df = filtered_df[filtered_df['car'].str.contains(filters['car'], na=False)]
+        if filters['search_mode'].startswith("OR"):
+            # OR 검색: 키워드 중 하나라도 포함
+            keyword_condition = False
+            for word in search_words:
+                keyword_condition = keyword_condition | (
+                        filtered_df['company'].str.contains(word, na=False, case=False, regex=False) |
+                        filtered_df['car'].str.contains(word, na=False, case=False, regex=False) |
+                        filtered_df['keyword'].str.contains(word, na=False, case=False, regex=False)
+                )
+            filtered_df = filtered_df[keyword_condition]
 
+        elif filters['search_mode'].startswith("AND"):
+            # AND 검색: 모든 키워드가 포함되어야 함
+            for word in search_words:
+                filtered_df = filtered_df[
+                    (filtered_df['company'].str.contains(word, na=False, case=False, regex=False)) |
+                    (filtered_df['car'].str.contains(word, na=False, case=False, regex=False)) |
+                    (filtered_df['keyword'].str.contains(word, na=False, case=False, regex=False))
+                    ]
+
+    # 추가 필터링
     if filters['is_ev'] != "전체":
         filtered_df = filtered_df[filtered_df['is_ev'] == filters['is_ev']]
 
@@ -133,17 +170,15 @@ if search_button:
         filtered_df = filtered_df[filtered_df['is_di'] == filters['is_di']]
 
     start_date, end_date = filters['prod_date_range']
-    filtered_df = filtered_df[
-        (filtered_df['prod_period_from'] >= pd.to_datetime(start_date)) &
-        (filtered_df['prod_period_to'] <= pd.to_datetime(end_date))
-    ]
+    if start_date:
+        filtered_df = filtered_df[filtered_df['prod_period_from'] >= pd.to_datetime(start_date)]
+    if end_date:
+        filtered_df = filtered_df[filtered_df['prod_period_to'] <= pd.to_datetime(end_date)]
 
-    if filters['keyword']:
-        filtered_df = filtered_df[filtered_df['keyword'].str.contains(filters['keyword'], na=False)]
-
-    # 📊 대시보드 + 데이터프레임
-    show_dashboard(filtered_df)
+    # 결과 출력
     show_results(filtered_df)
+
+    st.session_state.search_triggered = False
 
     # 📋 카드 스타일 리콜 상세 결과 추가 (여기 추가함)
     st.subheader("📋 리콜 상세 결과")
@@ -171,7 +206,12 @@ if search_button:
                     st.markdown(f"### {row['company']} {row['car']}")
                     st.markdown(f"**리콜 사유:** {row['keyword'][:100]}{'...' if len(row['keyword']) > 100 else ''}")
                     st.markdown(f"**생산 기간:** {row['prod_period_from'].date()} ~ {row['prod_period_to'].date()}")
+                    st.markdown(f"**리콜 날짜:** {row['recall_start'].date()}")
+                    st.markdown(f"**리콜까지 걸린 기간:** {(row['recall_start'].date() - row['prod_period_to'].date()).days}일")
                     st.markdown(f"**차량 유형:** {row['is_ev']} / **지역:** {row['is_di']}")
+if search_button or st.session_state.search_triggered:
+    # 마지막에 추가
+    st.session_state.search_triggered = False
 
 if reset_button:
     st.rerun()
