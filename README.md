@@ -7,7 +7,10 @@
 ## 팀명
 
 ---
-미정
+### 아비터 리콜(Arbiter Recall)
+   사용자와 차량 간의 중재자(Arbiter)가 되어 리콜 정보를 더 상세하게 제공하여 사용자가 더 쉽게 구매할 차량을 선택할 수 있도록 합니다.
+   <br>
+   <br>
 
 ## 팀원소개
 
@@ -15,55 +18,9 @@
  <table>
   <tr>
     <td align="center">
-      <img src="이미지링크1" width="150px"><br>
-      <b>유용환</b><br>
-      <a href="https://github.com/yooyonghwan111">GitHub</a>
-    </td>
-    <td align="center">
-      <img src="이미지링크2" width="150px"><br>
-      <b>김진묵</b><br>
-      <a href="https://github.com/jinmukkim">GitHub</a>
-    </td>
-    <td align="center">
-      <img src="이미지링크3" width="150px"><br>
-      <b>이수미</b><br>
-      <a href="https://github.com/Sumi-Lee">GitHub</a>
-    </td>
-    <td align="center">
-      <img src="이미지링크4" width="150px"><br>
-      <b>공지환</b><br>
-      <a href="https://github.com/0jihwan">GitHub</a>
-    </td>
-    <td align="center">
-      <img src="이미지링크5" width="150px"><br>
-      <b>김광령</b><br>
-      <a href="https://github.com/iamkkr2030">GitHub</a>
-    </td>
-  </tr>
-</table>
-
-## 프로젝트
-
----
-### 개발기간
-2025.4.28 ~ 2025.4.29
-
-
-### 프로젝트 주제
-자동차 리콜이력 조회 시스템
-
-
-
-## 목차
-
----
-1. 프로젝트 개요
-2. 프로젝트 구성
-3. 주요 기능 설명
-4. 서비스 화면 구성
-5. 데이터 관리 (ERD)
-6. 수행 결과
-7. 팀원 별 회고
+    서
+7. 수행 결과
+8. 팀원 별 회고
 
 ## 1. 프로젝트 개요
 
