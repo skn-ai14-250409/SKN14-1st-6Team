@@ -15,10 +15,12 @@
 ## 팀원소개
 
 ---
- <table>
-  <tr>
-    <td align="center">
-    서
+1. 프로젝트 개요
+2. 프로젝트 구성
+3. 주요 기능 설명
+4. 서비스 화면 구성
+5. ERD (Entity Relationship Diagram)
+6. 테이블 기술서
 7. 수행 결과
 8. 팀원 별 회고
 
