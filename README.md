@@ -90,8 +90,7 @@ MySQL로 데이터베이스를 관리하여 효율적이고 직관적인 사용�
 
 ### 1.3 관련 뉴스 기사 (참고 자료)
 - 국내 차량 (https://www.chungnamilbo.co.kr/news/articleView.html?idxno=814343)
-![KIA]
-<img src="git 주소">
+<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/imgs/readmenews_01.png?raw=true">
 - 수입 차량 (https://biz.heraldcorp.com/article/10461563?ref=naver)
 <img src="git 주소">
 ### 1.4 목표
