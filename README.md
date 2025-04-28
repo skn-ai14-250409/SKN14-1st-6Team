@@ -185,8 +185,8 @@ erd가 백엔드인가?
 ## 5. ERD (Entity Relationship Diagram)
 <img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/physic_ERD.png?raw=true">
 
-### 6. 테이블 정의서
-<img src="깃에 업로드된 테이블 정의서">
+### 6. 테이블 기술서
+<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/table_skill_west.png?raw=true">
 
 *docs 문서 참조*
 
