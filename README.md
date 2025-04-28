@@ -17,27 +17,27 @@
     <td align="center">
       <img src="이미지링크1" width="150px"><br>
       <b>유용환</b><br>
-      <a href="https://github.com/유용환_github">GitHub</a>
+      <a href="https://github.com/yooyonghwan111">GitHub</a>
     </td>
     <td align="center">
       <img src="이미지링크2" width="150px"><br>
       <b>김진묵</b><br>
-      <a href="https://github.com/김진묵_github">GitHub</a>
+      <a href="https://github.com/jinmukkim">GitHub</a>
     </td>
     <td align="center">
       <img src="이미지링크3" width="150px"><br>
       <b>이수미</b><br>
-      <a href="https://github.com/이수미_github">GitHub</a>
+      <a href="https://github.com/Sumi-Lee">GitHub</a>
     </td>
     <td align="center">
       <img src="이미지링크4" width="150px"><br>
       <b>공지환</b><br>
-      <a href="https://github.com/공지환_github">GitHub</a>
+      <a href="https://github.com/0jihwan">GitHub</a>
     </td>
     <td align="center">
       <img src="이미지링크5" width="150px"><br>
       <b>김광령</b><br>
-      <a href="https://github.com/김광령_github">GitHub</a>
+      <a href="https://github.com/iamkkr2030">GitHub</a>
     </td>
   </tr>
 </table>
@@ -89,10 +89,12 @@ MySQL로 데이터베이스를 관리하여 효율적이고 직관적인 사용�
 
 
 ### 1.3 관련 뉴스 기사 (참고 자료)
-- 국내 차량 (https://www.chungnamilbo.co.kr/news/articleView.html?idxno=814343)
-<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/imgs/readmenews_01.png?raw=true">
-- 수입 차량 (https://biz.heraldcorp.com/article/10461563?ref=naver)
-<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/imgs/readmenews_02.png?raw=true">
+- **국내 차량** (https://www.chungnamilbo.co.kr/news/articleView.html?idxno=814343)
+<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/imgs/readmenews_01.png?raw=true" width=500>
+
+- **수입 차량** (https://biz.heraldcorp.com/article/10461563?ref=naver)
+<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/imgs/readmenews_02.png?raw=true" width=500>
+
 ### 1.4 목표
 자동차 리콜 이력 조회를 통해 차량 구매자와 소유자가 보다 신뢰성 있는 결정을 내릴 수 있도록 지원하는 시스템 개발
 이번 프로젝트의 최종 목표는 차량 리콜 이력을 쉽고 직관적으로 조회할 수 있는 데이터 기반 플랫폼을 구축하는 것입니다.
@@ -142,7 +144,6 @@ Python, SQL, Streamlit을 활용한 데이터 파이프라인을 직접 구축�
 1) MySQL을 통한 데이터 관리
 2) 크롤링을 통한 데이터 수집 자동화
 3) ERD 설계
-erd가 백엔드인가?
 
 
 ## 3. 주요 기능 설명
@@ -182,11 +183,12 @@ erd가 백엔드인가?
 
 
 ## 5. ERD (Entity Relationship Diagram)
-<img src="깃에 업로드된 ERD">
+<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/physic_ERD.png?raw=true" width=500>
 
-### 6. 테이블 명세서
-<img src="깃에 업로드된 테이블 명세서">
-docs 문서 참조
+### 6. 테이블 기술서
+<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/table_skill_west.png?raw=true" width=500>
+
+*docs 문서 참조*
 
 ### 7. 프로젝트 시연
 
