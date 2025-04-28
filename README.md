@@ -14,6 +14,36 @@
 
 ## 팀원소개
 
+ <table>
+  <tr>
+    <td align="center">
+      <img src="이미지링크1" width="150px"><br>
+      <b>유용환</b><br>
+      <a href="https://github.com/yooyonghwan111">GitHub</a>
+    </td>
+    <td align="center">
+      <img src="이미지링크2" width="150px"><br>
+      <b>김진묵</b><br>
+      <a href="https://github.com/jinmukkim">GitHub</a>
+    </td>
+    <td align="center">
+      <img src="이미지링크3" width="150px"><br>
+      <b>이수미</b><br>
+      <a href="https://github.com/Sumi-Lee">GitHub</a>
+    </td>
+    <td align="center">
+      <img src="이미지링크4" width="150px"><br>
+      <b>공지환</b><br>
+      <a href="https://github.com/0jihwan">GitHub</a>
+    </td>
+    <td align="center">
+      <img src="이미지링크5" width="150px"><br>
+      <b>김광령</b><br>
+      <a href="https://github.com/iamkkr2030">GitHub</a>
+    </td>
+  </tr>
+</table>
+
 ---
 1. 프로젝트 개요
 2. 프로젝트 구성
