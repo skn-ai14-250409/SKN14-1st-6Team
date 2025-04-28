@@ -33,6 +33,25 @@ def load_data():
 
 df = load_data()
 
+# 🔥 키워드 리스트 추가
+KEYWORD_LIST = [
+    "브레이크", "에어백", "연료펌프", "엔진", "전기장치", "조향장치", "타이어",
+    "시트벨트", "연료탱크", "배터리", "브레이크 패드", "배기 시스템", "전기 회로",
+    "전선 연결", "서스펜션", "속도계", "트랜스미션", "엔진 마운트", "핸들",
+    "충격 흡수기", "발전기", "디스크 브레이크", "스파크 플러그", "소음 문제",
+    "진동 문제", "냉각 시스템", "연료 시스템", "전장 시스템", "문 열림 문제",
+    "헤드램프", "후방 카메라", "내구성 문제", "소프트웨어 버그", "화재 위험",
+    "전기 과열", "전기 누전", "스티어링 고장", "부품 결함", "카메라", "소프트웨어", "기타"
+]
+
+def extract_keywords_from_description(description):
+    """
+    리콜 사유(description)에서 키워드를 추출하는 함수
+    """
+    if pd.isnull(description):
+        return ["기타"]
+    found_keywords = [keyword for keyword in KEYWORD_LIST if keyword in description]
+    return found_keywords if found_keywords else ["기타"]
 # UI
 # 엔터키 on_change용 함수
 def search():
@@ -174,41 +193,50 @@ if search_button or st.session_state.search_triggered:
         filtered_df = filtered_df[filtered_df['prod_period_from'] >= pd.to_datetime(start_date)]
     if end_date:
         filtered_df = filtered_df[filtered_df['prod_period_to'] <= pd.to_datetime(end_date)]
-
+    # 🔥 리콜 사유에서 키워드 추출해서 새로운 컬럼 추가
+    filtered_df['extracted_keywords'] = filtered_df['keyword'].apply(extract_keywords_from_description)
     # 결과 출력
     show_results(filtered_df)
 
     st.session_state.search_triggered = False
 
-    # 📋 카드 스타일 리콜 상세 결과 추가 (여기 추가함)
+    # 📋 카드 스타일 리콜 상세 결과 추가
     st.subheader("📋 리콜 상세 결과")
 
     if filtered_df.empty:
         st.warning("검색 결과가 없습니다.")
     else:
-        for i, row in filtered_df.iterrows():
+        # 같은 차종, 리콜 사유, 제조사로 그룹화 (리콜 날짜는 제외)
+        grouped_df = filtered_df.groupby(['company', 'car', 'keyword'])
+
+        for (company, car, keyword), group in grouped_df:
             with st.container():
                 st.markdown("---")
                 cols = st.columns([1, 4])
 
                 with cols[0]:
-                    car_name = row['car']
-                    ##sumilee##
+                    # 첫 번째 항목에만 이미지 표시
+                    car_name = group.iloc[0]['car']
                     img_url = fetch_naver_image(car_name)
 
                     if img_url:
                         st.image(img_url, width=150)
-
                     else:
                         st.image("https://via.placeholder.com/150x100.png?text=No+Image", width=150)
 
                 with cols[1]:
-                    st.markdown(f"### {row['company']} {row['car']}")
-                    st.markdown(f"**리콜 사유:** {row['keyword'][:100]}{'...' if len(row['keyword']) > 100 else ''}")
-                    st.markdown(f"**생산 기간:** {row['prod_period_from'].date()} ~ {row['prod_period_to'].date()}")
-                    st.markdown(f"**리콜 날짜:** {row['recall_start'].date()}")
-                    st.markdown(f"**리콜까지 걸린 기간:** {(row['recall_start'].date() - row['prod_period_to'].date()).days}일")
-                    st.markdown(f"**차량 유형:** {row['is_ev']} / **지역:** {row['is_di']}")
+                    # 차종, 제조사, 리콜 사유
+                    st.markdown(f"### {company} {car}")
+                    st.markdown(f"**리콜 사유:** {keyword[:100]}{'...' if len(keyword) > 100 else ''}")
+
+                    # 생산 기간을 나열
+                    prod_periods = group[['prod_period_from', 'prod_period_to']].apply(
+                        lambda row: f"[{row['prod_period_from'].date()} ~ {row['prod_period_to'].date()}]",
+                        axis=1).tolist()
+                    st.markdown(f"**생산 기간:** {', '.join(prod_periods)}")
+
+                    # 기타 정보
+                    st.markdown(f"**차량 유형:** {group['is_ev'].iloc[0]} / **지역:** {group['is_di'].iloc[0]}")
 if search_button or st.session_state.search_triggered:
     # 마지막에 추가
     st.session_state.search_triggered = False
