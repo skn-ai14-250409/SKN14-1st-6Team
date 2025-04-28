@@ -1,15 +1,15 @@
 
-DROP TABLE IF EXISTS `origin_data`;
-DROP TABLE IF EXISTS `origin_data1`;
-DROP TABLE IF EXISTS `car_has_recall_current`;
-DROP TABLE IF EXISTS `company_has_recall_current`;
-DROP TABLE IF EXISTS `company`;
-DROP TABLE IF EXISTS `domestic_international`;
-DROP TABLE IF EXISTS `recall_current_has_recall_reason`;
-DROP TABLE IF EXISTS `car`;
-DROP TABLE IF EXISTS `ev`;
-DROP TABLE IF EXISTS `recall_key`;
-DROP TABLE IF EXISTS `recall_current`;
+# DROP TABLE IF EXISTS `origin_data`;
+# DROP TABLE IF EXISTS `origin_data1`;
+# DROP TABLE IF EXISTS `car_has_recall_current`;
+# DROP TABLE IF EXISTS `company_has_recall_current`;
+# DROP TABLE IF EXISTS `company`;
+# DROP TABLE IF EXISTS `domestic_international`;
+# DROP TABLE IF EXISTS `recall_current_has_recall_reason`;
+# DROP TABLE IF EXISTS `car`;
+# DROP TABLE IF EXISTS `ev`;
+# DROP TABLE IF EXISTS `recall_key`;
+# DROP TABLE IF EXISTS `recall_current`;
 
 
 -- 1. origin_data (CSV 원본 데이터 넣는 테이블)
