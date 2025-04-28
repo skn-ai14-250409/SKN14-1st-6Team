@@ -90,6 +90,11 @@ def is_domestic(maker):
     domestic_makers = ['현대', '기아', '쌍용', '르노', '쉐보레', '한국GM', '대우']
     return 1 if any(dom in maker for dom in domestic_makers) else 2
 
+
+def extract_keyword():
+    pass
+
+
 df['EV_EV_id'] = df.apply(lambda row: is_ev(row['car_name'], row['recall_reason']), axis=1)
 df['Domestic_International_DI_id'] = df['company'].apply(is_domestic)
 

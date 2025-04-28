@@ -90,29 +90,64 @@ def fetch_naver_image(car_name: str) -> str:
     네이버 Image Search API를 호출하고 첫 번째 이미지를 반환.
     """
     # 1) 검색어 문자열 생성
-    query = f"{car_name}"
+    query = f"{car_name}나무위키"
 
-    # 2) URL 인코딩
-    encText = urllib.parse.quote(query)
-
-    url = "https://openapi.naver.com/v1/search/image?query="+encText+"&display=1"
+    # # 2) URL 인코딩
+    # encText = urllib.parse.quote(query)
+    #
+    # url = "https://openapi.naver.com/v1/search/image?query="+encText+"&display=1"
     # 요청 url 등록
-    request = urllib.request.Request(url)
+    # request = urllib.request.Request(url)
 
     # 요청 header 등록(메타정보)
-    request.add_header("X-Naver-Client-Id", NAVER_CLIENT_ID)
-    request.add_header("X-Naver-Client-Secret", NAVER_CLIENT_SECRET)
+    headers = {
+        "X-Naver-Client-Id": NAVER_CLIENT_ID,
+        "X-Naver-Client-Secret": NAVER_CLIENT_SECRET
+    }
 
-    # try:
-    # 5) 요청 보내기
-    response = urllib.request.urlopen(request)
-    rescode = response.getcode()
-    if (rescode == 200):
-        response_body = response.read()
-        response_json = json.loads(response_body.decode("utf-8"))
-        return response_json['items'][0]['link']
+    # 사용자 입력값 (query string)
+    params = {
+        'query': query,
+        'display': 30,  # 10이 기본값, 10~100
+        'start': 1,
+        'sort': 'sim',  # sim이 기본값, sim|date 관련도순|최신순(네이버 뉴스의 설정과 같이)
+    }
+
+    # 요청
+    response = requests.get(NAVER_SEARCH_URL, headers=headers, params=params)
+    # response = urllib.request.urlopen(request)
+    # rescode = response.getcode()
+
+    # 결과 출력
+    if response.status_code == 200:
+        items = response.json().get('items', [])
+        # 먼저 나무위키 이미지를 찾기
+        for item in items:
+            link = item.get('link', '')
+            if 'namu.wiki' in link:
+                return link  # 나무위키 이미지 바로 반환
+
+        # 나무위키 이미지가 없으면 첫 번째 이미지 반환
+        if items:
+            return items[0].get('link')
+        else:
+            return print("Error Code:" + response.status_code)
     else:
-        print("Error Code:" + rescode)
+        print("Error:", response.status_code, response.text)
+        return print("Error Code:" + response.status_code)
+
+
+
+    #     data = response.json()  # json형식의 데이터를 dict으로 변환
+    #     return data['items'][0]['link']
+    # else:
+    #     print("Error Code:" + response.status_code)
+    # if (rescode == 200):
+    #     response_body = response.read()
+    #     response_json = json.loads(response_body.decode("utf-8"))
+    #     return response_json['items'][0]['link']
+    # else:
+    #     print("Error Code:" + rescode)
 ######################### sumilee end ##################################
 
 
