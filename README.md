@@ -190,5 +190,47 @@ Python, SQL, Streamlit을 활용한 데이터 파이프라인을 직접 구축�
 
 ### 8. 프로젝트 회고록
 
+ <table>
+  <tr>
+    <td width=80>
+      <b>유용환</b><br>
+    </td>
+    <td width=800>
+          123
+    </td>
+ </tr>
+  <tr>
+       <td>
+         <b>김진묵</b><br>
+       </td>
+       <td>
+          123
+       </td>
+ </tr>
+ <tr>
+    <td>
+       <b>이수미</b>
+    </td>
+    <td>
+       123
+    </td>
+ </tr>
+    <tr>
+       <td>
+          <b>공지환</b>
+       </td>
+       <td>
+          내용
+       </td>
+    </tr>
+    <tr>
+       <td>
+          <b>김광령</b>
+       </td>
+       <td>
+          내용
+       </td>
+    </tr>
+</table>
 
 
