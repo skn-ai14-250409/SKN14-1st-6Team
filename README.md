@@ -124,6 +124,25 @@ Python, SQL, Streamlit을 활용한 데이터 파이프라인을 직접 구축�
 
 ### 2.2 프로젝트 구조
 
+```
+Arbiter Recall
+│
+├── main.py                      # 메인 실행 파일
+├── pages/
+│   ├── 1_초기_화면_통계         # 초기 화면 - 통계 자료 조회
+│   └── 2_차량_및_리콜정보       # 검색 후 결과 화면 - 필터링 및 상세 정보 테이블
+├── components/
+│   ├── ui_dashboard.py          # 통계 차트 생성 코드 (상위 리콜 사유, 제조사별 비율 등)
+│   ├── ui_result_table.py       # 검색 결과 테이블 렌더링 코드
+├── data/
+│   ├── recall_data.csv          # 차량 리콜 데이터 원본
+│   ├── csv_to_db.py             # 데이터 전처리 코드
+├── utils/
+│   ├── create_table.sql         # 데이터 로드, 가공 파일
+│   └── db_grant.sql             # db 생성 파일
+└── README.md                    # 프로젝트 소개 및 실행 방법
+```
+
 
 ### 2.3 기능적 요구 사항
 - 사용자 입력을 통한 차량 검색
