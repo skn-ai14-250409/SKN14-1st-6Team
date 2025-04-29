@@ -69,7 +69,8 @@ connection_string = f'mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOSTN
 db = create_engine(connection_string)
 
 # CSV 파일 읽기
-df = pd.read_csv('../한국교통안전공단_자동차결함 리콜현황_20231231.csv', encoding='cp949')
+df = pd.read_csv('C:/Workspaces/SKN14-1st-6Team/new_한국교통안전공단_자동차결함 리콜현황_20231231.csv')
+
 
 # 컬럼명 영어로 변경
 df = df.rename(columns={
@@ -78,7 +79,8 @@ df = df.rename(columns={
     '생산기간(부터)': 'prod_period_from',
     '생산기간(까지)': 'prod_period_to',
     '리콜개시일': 'recall_start',
-    '리콜사유': 'recall_reason'
+    '리콜사유': 'recall_reason',
+    'keyword': 'keyword'
 })
 # 전기차/국내 여부 추가 ✨
 def is_ev(car_name, reason):
