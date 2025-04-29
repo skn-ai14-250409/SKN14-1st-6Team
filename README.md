@@ -17,27 +17,27 @@
  <table>
   <tr>
     <td align="center">
-      <img src="이미지링크1" width="150px"><br>
+      <img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/team/samsung.jpg?raw=true" width="150px"><br>
       <b>유용환</b><br>
       <a href="https://github.com/yooyonghwan111">GitHub</a>
     </td>
     <td align="center">
-      <img src="이미지링크2" width="150px"><br>
+      <img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/team/hanhwa.jpg?raw=true" width="150px"><br>
       <b>김진묵</b><br>
       <a href="https://github.com/jinmukkim">GitHub</a>
     </td>
     <td align="center">
-      <img src="이미지링크3" width="150px"><br>
+      <img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/team/kt.jpg?raw=true" width="150px"><br>
       <b>이수미</b><br>
       <a href="https://github.com/Sumi-Lee">GitHub</a>
     </td>
     <td align="center">
-      <img src="이미지링크4" width="150px"><br>
+      <img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/team/lg.jpg?raw=true" width="150px"><br>
       <b>공지환</b><br>
       <a href="https://github.com/0jihwan">GitHub</a>
     </td>
     <td align="center">
-      <img src="이미지링크5" width="150px"><br>
+      <img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/team/ssg.jpg?raw=true" width="150px"><br>
       <b>김광령</b><br>
       <a href="https://github.com/iamkkr2030">GitHub</a>
     </td>
@@ -71,6 +71,7 @@
 Streamlit을 사용하여 웹 기반 대시보드 형태로 구현하고, Python으로 데이터 수집 및 처리, 
 MySQL로 데이터베이스를 관리하여 효율적이고 직관적인 사용자 경험을 제공하고자 합니다.
 <br>
+
 ### 1.2 필요성
 신뢰할 수 있는 차량 구매를 돕기 위한 데이터 기반 시스템의 필요성
 
@@ -108,6 +109,7 @@ Streamlit 기반의 간편하고 직관적인 UI를 설계하여, IT 지식이 �
 Python, SQL, Streamlit을 활용한 데이터 파이프라인을 직접 구축하고, 프론트-백엔드 전체 과정을 경험함으로써 실전 개발 역량을 키웁니다.
 프로젝트 협업 과정을 통해 문제 해결 능력, 커뮤니케이션 능력, 데이터 처리 및 분석 능력을 향상시킵니다.
 <br>
+
 ## 2. 프로젝트 구성
 
 ---
@@ -121,6 +123,25 @@ Python, SQL, Streamlit을 활용한 데이터 파이프라인을 직접 구축�
 | 화면구현 | ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
 
 ### 2.2 프로젝트 구조
+
+```
+Arbiter Recall
+│
+├── main.py                      # 메인 실행 파일
+├── pages/
+│   ├── 1_초기_화면_통계         # 초기 화면 - 통계 자료 조회
+│   └── 2_차량_및_리콜정보       # 검색 후 결과 화면 - 필터링 및 상세 정보 테이블
+├── components/
+│   ├── ui_dashboard.py          # 통계 차트 생성 코드 (상위 리콜 사유, 제조사별 비율 등)
+│   ├── ui_result_table.py       # 검색 결과 테이블 렌더링 코드
+├── data/
+│   ├── recall_data.csv          # 차량 리콜 데이터 원본
+│   ├── csv_to_db.py             # 데이터 전처리 코드
+├── utils/
+│   ├── create_table.sql         # 데이터 로드, 가공 파일
+│   └── db_grant.sql             # db 생성 파일
+└── README.md                    # 프로젝트 소개 및 실행 방법
+```
 
 
 ### 2.3 기능적 요구 사항
@@ -160,25 +181,39 @@ Python, SQL, Streamlit을 활용한 데이터 파이프라인을 직접 구축�
 ## 4. 서비스 화면 구성
 
 ---
+
 ### 4.1 메인 페이지
-- 시각화 1 
-- 시각화 2
-- 시각화 3
+
+<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/imgs/sebu_page01.png?raw=true" width=600>
+
+*▲ 아비터 리콜의 시작 화면*
+
+- 사용자는 좌측 필터 조건으로 원하는 차량의 정보와 리콜 정보를 얻을 수 있다.
+- 필터 조건의 기능은 다음과 같다.
+    - 검색 방식, 제조사/차명/리콜 사유 통합 검색, 차량 유형 필터링, 국내/해외차 필터링, 생산 기간 범위
+- 사용자는 시작 화면에서 통계 자료를 조회할 수 있다.
+- 통계 자료는 다음과 같다.
+    - 리콜 수치 요약, 상위 10개 리콜 사유 분포, 생산 시작 연도별 리콜 건수, 제조사별 리콜 비율
 
 
-### 4.2 세부 페이지_1
-- 배너 1 : 요약 table
+### 4.2 세부 페이지
 
-### 4.2 세부 페이지_2
-- 배너 1 : 자동차 이미지
-- 배너 2 : 자동차 설명
+<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/imgs/sebu_page02.png?raw=true" width=600>
+
+*▲ 검색 시 나타나는 화면*
+
+- 사용자는 검색 시 필터 조건에 맞는 차량과 리콜 정보를 확인할 수 있다.
+- 상세 내역에서는 차량과 리콜 정보 테이블을 확인할 수 있다.
+- 사용자는 테이블의 리콜 사유 키워드 컬럼과 주요 원인으로 리콜 정보를 한눈에 파악할 수 있다.
 
 <br>
 
 ## 5. ERD (Entity Relationship Diagram)
 <img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/physic_ERD.png?raw=true" width=500>
 
-### 6. 테이블 기술서
+---
+
+## 6. 테이블 기술서
 <img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/table_skill_west.png?raw=true" width=500>
 
 *docs 문서 참조*
@@ -220,7 +255,7 @@ Python, SQL, Streamlit을 활용한 데이터 파이프라인을 직접 구축�
           <b>공지환</b>
        </td>
        <td>
-          내용
+          제 꿈은 박토토 입니다 .
        </td>
     </tr>
     <tr>
