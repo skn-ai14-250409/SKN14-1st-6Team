@@ -167,7 +167,7 @@ def fetch_naver_image(car_name: str) -> str:
     # 사용자 입력값 (query string)
     params = {
         'query': query,
-        'display': 30,  # 10이 기본값, 10~100
+        'display': 10,  # 10이 기본값, 10~100
         'start': 1,
         'sort': 'sim',  # sim이 기본값, sim|date 관련도순|최신순(네이버 뉴스의 설정과 같이)
     }
@@ -190,10 +190,9 @@ def fetch_naver_image(car_name: str) -> str:
         if items:
             return items[0].get('link')
         else:
-            return print("Error Code:" + response.status_code)
+            return print("Error Code:" +str(response.status_code))
     else:
-        print("Error:", response.status_code, response.text)
-        return print("Error Code:" + response.status_code)
+        return print("Error Code:" +str(response.status_code))
 
 
 
