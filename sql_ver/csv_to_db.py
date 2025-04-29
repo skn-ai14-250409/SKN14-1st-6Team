@@ -85,7 +85,7 @@ df = df.rename(columns={
 # 전기차/국내 여부 추가 ✨
 def is_ev(car_name, reason):
     ev_keywords = ['ev', 'EV', '아이오닉', 'iX', '전기', '하이브리드', 'Hybrid', '전동']
-    text = f"{car_name} {reason}".lower()
+    text = f"{car_name}".lower()
     return 1 if any(k.lower() in text for k in ev_keywords) else 2
 
 def is_domestic(maker):
