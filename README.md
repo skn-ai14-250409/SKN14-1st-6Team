@@ -222,6 +222,8 @@ Arbiter Recall
 
 ### 7. 프로젝트 시연
 
+[![Video Label](https://img.youtube.com/vi/4bjunH1gokM/0.jpg)](https://youtu.be/4bjunH1gokM)
+
 
 ### 8. 프로젝트 회고록
 
@@ -231,7 +233,7 @@ Arbiter Recall
       <b>유용환</b><br>
     </td>
     <td width=800>
-          123
+          팀원들과 함께 프로젝트를 진행하며, 파이썬 및 SQL 뿐만 아니라 의사소통의 중요성을 느낄수 있었던 소중한 경험이었습니다.
     </td>
  </tr>
   <tr>
@@ -239,7 +241,7 @@ Arbiter Recall
          <b>김진묵</b><br>
        </td>
        <td>
-          123
+          처음엔 막막하고 갈피를 못 잡았지만, 끝까지 해내고 나니 뿌듯했다. 좋은 경험이었고, 앞으로 더 열심히 해야겠다.
        </td>
  </tr>
  <tr>
@@ -263,7 +265,7 @@ Arbiter Recall
           <b>김광령</b>
        </td>
        <td>
-          내용
+          이번에 streamlit은 처음 써봐서 생각보다 어려웠지만 어찌저찌 끝낸 거 같고 이번 기회를 통해 좋은 경험을 쌓은 거 같습니다 
        </td>
     </tr>
 </table>
