@@ -1,89 +1,69 @@
-# import streamlit as st
-#
-# def show_dashboard(df):
-#     st.subheader("리콜 요약")
-#
-#     col1, col2, col3 = st.columns(3)
-#     col1.metric("총 리콜 건수", len(df))
-#     col2.metric("제조사 수", df['company'].nunique())
-#     col3.metric("사유 수", df['keyword'].nunique())
-#
-#     st.subheader("리콜 사유 분포 (상위 10개)")
-#     reason_counts = df['keyword'].value_counts().head(10)
-#     st.bar_chart(reason_counts)
-
-
 import streamlit as st
 import plotly.express as px
+import pandas as pd
 
 def show_dashboard(df):
-    st.subheader("🚗 리콜 요약")
+    st.subheader("리콜 요약")
 
-    # 1. 리콜 사유 컬럼 두개 준비
-    df['keyword_full'] = df['keyword']  # 전체 리콜 사유
-    df['keyword_short'] = df['keyword'].apply(lambda x: x[:15] + '...' if len(x) > 15 else x)  # 짧게 요약
-
-    # 2. 상위 10개 리콜 사유만 필터링
-    top_keywords = df['keyword'].value_counts().nlargest(10).index.tolist()
-    df = df[df['keyword'].isin(top_keywords)]
-
+    # ✅ 전체 데이터 기준으로 요약
     col1, col2, col3 = st.columns(3)
     col1.metric("총 리콜 건수", len(df))
     col2.metric("제조사 수", df['company'].nunique())
     col3.metric("리콜 사유 수", df['keyword'].nunique())
 
-    # 마지막 리콜 사유 바 차트
-    st.subheader("리콜 사유 분포 (상위 10개)")
+    # 🔥 리콜 사유 분포 (여기는 상위 10개만 사용해도 좋아서 그대로 둬도 됨)
+    df['keyword_short'] = df['keyword'].apply(lambda x: x if len(x) <= 15 else x[:15] + "...")
 
-    reason_counts = df['keyword'].value_counts().head(10)
-    st.bar_chart(reason_counts)
+    reason_counts = df['keyword_short'].value_counts().nlargest(10).reset_index()
+    reason_counts.columns = ['keyword_short', 'count']
 
-    # 좌우로 나누기
-    left_col, right_col = st.columns(2)
+    fig = px.bar(
+        reason_counts,
+        x='keyword_short',
+        y='count',
+        text='count',
+        title='리콜 사유 분포 (상위 10개)'
+    )
 
-    with left_col:
-        st.markdown("#### 🚘 연료타입별 리콜 사유 구조 (Sunburst)")
+    # ✨ Hover 텍스트를 커스텀: 리콜 사유 내용만 뜨게
+    fig.update_traces(
+        hovertemplate="%{x}<extra></extra>",  # x축 값만 보여주고, extra(기타 정보) 숨김
+        textposition='outside'
+    )
+    # ✨ Layout 설정
+    fig.update_layout(
+        xaxis_tickangle=-30,
+        xaxis_title="리콜 사유",
+        yaxis_title="건수",
+        title_x=0.5
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
-        sunburst_df = df.groupby(['is_ev', 'keyword_short', 'keyword_full']).size().reset_index(name='count')
+    cols = st.columns(2)
+    with cols[0]:
+        # 1. 생산 시작 연도(prod_period_from) 컬럼 생성
+        df['prod_year'] = df['prod_period_from'].dt.year
 
-        fig1 = px.sunburst(
-            sunburst_df,
-            path=['is_ev', 'keyword_short'],
-            values='count',
-            width=400,
-            height=400
+        # 2. 생산 시작 연도별 리콜 건수 집계
+        yearly_counts = df.groupby('prod_year').size().reset_index(name='count')
+
+        # 3. 2000~2024년까지 모든 연도 리스트 만들기
+        all_years = pd.DataFrame({'prod_year': list(range(2000, 2025))})
+
+        yearly_counts = pd.merge(all_years, yearly_counts, on='prod_year', how='left').fillna(0)
+        yearly_counts['count'] = yearly_counts['count'].astype(int)
+
+        fig1 = px.line(
+            yearly_counts,
+            x='prod_year',
+            y='count',
+            markers=True,
+            title='생산 시작 연도별 리콜 건수 변화'
         )
-
-        fig1.update_traces(
-            customdata=sunburst_df['keyword_full'],
-            hovertemplate='%{customdata}<extra></extra>'
-        )
-
         st.plotly_chart(fig1, use_container_width=True)
 
-    with right_col:
-        st.markdown("#### 🏭 상위 제조사별 리콜 사유 (Stacked Bar)")
-
-        top10_companies = df['company'].value_counts().nlargest(10).index.tolist()
-        filtered = df[df['company'].isin(top10_companies)]
-
-        bar_df = filtered.groupby(['company', 'keyword_short', 'keyword_full']).size().reset_index(name='count')
-
-        fig2 = px.bar(
-            bar_df,
-            x='company',
-            y='count',
-            color='keyword_short',
-            title='Top 10 제조사별 리콜 사유 분포',
-            barmode='stack',
-            width=400,
-            height=400
-        )
-
-        fig2.update_traces(
-            customdata=bar_df['keyword_full'],
-            hovertemplate='%{customdata}<extra></extra>'
-        )
-
+    with cols[1]:
+        # 2. 추가 : 제조사별 리콜 비율
+        top_companies = df['company'].value_counts().nlargest(10)
+        fig2 = px.pie(values=top_companies.values, names=top_companies.index, title='제조사별 리콜 비율')
         st.plotly_chart(fig2, use_container_width=True)
-
