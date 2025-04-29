@@ -4,7 +4,7 @@
 - SK 네트웍스 AI Camp 1차 프로젝트
 <br>
 
-## 팀명
+## 프로젝트명
 
 ---
 ### 아비터 리콜(Arbiter Recall)
