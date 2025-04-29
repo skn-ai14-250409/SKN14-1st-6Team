@@ -222,6 +222,8 @@ Arbiter Recall
 
 ### 7. 프로젝트 시연
 
+[![Video Label](https://img.youtube.com/vi/4bjunH1gokM/0.jpg)](https://youtu.be/4bjunH1gokM)
+
 
 ### 8. 프로젝트 회고록
 
