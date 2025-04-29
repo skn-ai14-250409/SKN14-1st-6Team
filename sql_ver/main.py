@@ -26,7 +26,7 @@ def load_data():
 
     df['is_ev'] = df['EV_EV_id'].map({1: '전기차', 2: '내연차'})
     df['is_di'] = df['Domestic_International_DI_id'].map({1: '국내', 2: '해외'})
-    df = df.rename(columns={'car_name': 'car', 'recall_reason': 'keyword'})
+    df = df.rename(columns={'car_name': 'car'})  #  'recall_reason': 'keyword'
     df = df.dropna(subset=['prod_period_from', 'prod_period_to'])
 
     return df
@@ -41,8 +41,18 @@ KEYWORD_LIST = [
     "충격 흡수기", "발전기", "디스크 브레이크", "스파크 플러그", "소음 문제",
     "진동 문제", "냉각 시스템", "연료 시스템", "전장 시스템", "문 열림 문제",
     "헤드램프", "후방 카메라", "내구성 문제", "소프트웨어 버그", "화재 위험",
-    "전기 과열", "전기 누전", "스티어링 고장", "부품 결함", "카메라", "소프트웨어", "기타"
-]
+    "전기 과열", "전기 누전", "스티어링 고장", "부품 결함", "카메라", "소프트웨어",
+    "기타", "냉각수", "구동모터", "히터", "변속기", "퓨즈박스", "전조등", "미션",
+    "배선", "릴레이", "배터리팩", "차체프레임", "연료필터", "점화코일", "ECU",
+    "ABS", "ESC", "센서", "와이어링 하네스", "차체", "하우징", "샤프트", "기어박스",
+    "오일펌프", "히터코어", "연료분사장치", "브레이크 오일", "차동기어", "충전 시스템",
+    "전기모터", "에어컨", "컨트롤유닛", "고압펌프", "파워스티어링", "조향기어박스",
+    "배출가스장치", "엔진제어장치", "변속레버", "밸브", "흡기매니폴드", "배기관",
+    "터보차저", "라디에이터", "드라이브샤프트", "제동등", "시동모터", "플라이휠",
+    "클러치", "트렁크", "차량도어", "루프", "휀더", "차량바디", "미등", "후미등",
+    "사이드미러", "룸미러", "도어락", "도어핸들", "차량시트", "헤드레스트",
+    "프론트카메라", "ADAS", "전방충돌방지장치", "차선이탈경고", "차선유지보조",
+    "긴급제동시스템", "후측방경고", "주차센서", "TPMS"]
 
 def extract_keywords_from_description(description):
     """
@@ -161,10 +171,10 @@ def fetch_naver_image(car_name: str) -> str:
     if response.status_code == 200:
         items = response.json().get('items', [])
         # 먼저 나무위키 이미지를 찾기
-        for item in items:
-            link = item.get('link', '')
-            if 'namu.wiki' in link:
-                return link  # 나무위키 이미지 바로 반환
+        # for item in items:
+        #     link = item.get('link', '')
+        #     if 'namu.wiki' in link:
+        #         return link  # 나무위키 이미지 바로 반환
 
         # 나무위키 이미지가 없으면 첫 번째 이미지 반환
         if items:
@@ -204,7 +214,7 @@ if search_button or st.session_state.search_triggered:
                 keyword_condition = keyword_condition | (
                         filtered_df['company'].str.contains(word, na=False, case=False, regex=False) |
                         filtered_df['car'].str.contains(word, na=False, case=False, regex=False) |
-                        filtered_df['keyword'].str.contains(word, na=False, case=False, regex=False)
+                        filtered_df['recall_reason'].str.contains(word, na=False, case=False, regex=False)
                 )
             filtered_df = filtered_df[keyword_condition]
 
@@ -214,7 +224,7 @@ if search_button or st.session_state.search_triggered:
                 filtered_df = filtered_df[
                     (filtered_df['company'].str.contains(word, na=False, case=False, regex=False)) |
                     (filtered_df['car'].str.contains(word, na=False, case=False, regex=False)) |
-                    (filtered_df['keyword'].str.contains(word, na=False, case=False, regex=False))
+                    (filtered_df['recall_reason'].str.contains(word, na=False, case=False, regex=False))
                     ]
 
     # 추가 필터링
@@ -230,7 +240,7 @@ if search_button or st.session_state.search_triggered:
     if end_date:
         filtered_df = filtered_df[filtered_df['prod_period_to'] <= pd.to_datetime(end_date)]
     # 🔥 리콜 사유에서 키워드 추출해서 새로운 컬럼 추가
-    filtered_df['extracted_keywords'] = filtered_df['keyword'].apply(extract_keywords_from_description)
+    filtered_df['extracted_keywords'] = filtered_df['recall_reason'].apply(extract_keywords_from_description)
     # 결과 출력
     show_results(filtered_df)
 
@@ -243,16 +253,16 @@ if search_button or st.session_state.search_triggered:
         st.warning("검색 결과가 없습니다.")
     else:
         # 같은 차종, 리콜 사유, 제조사로 그룹화 (리콜 날짜는 제외)
-        grouped_df = filtered_df.groupby(['company', 'car', 'keyword'])
+        grouped_df = filtered_df.groupby(['company', 'car', 'recall_reason'])
 
-        for (company, car, keyword), group in grouped_df:
+        for (company, car, recall_reason), group in grouped_df:
             with st.container():
                 st.markdown("---")
                 cols = st.columns([1, 4])
 
                 with cols[0]:
                     # 첫 번째 항목에만 이미지 표시
-                    car_name = group.iloc[0]['car']
+                    car_name = str(group.iloc[0]['company']) + str(group.iloc[0]['car'])
                     img_url = fetch_naver_image(car_name)
 
                     if img_url:
@@ -263,7 +273,7 @@ if search_button or st.session_state.search_triggered:
                 with cols[1]:
                     # 차종, 제조사, 리콜 사유
                     st.markdown(f"### {company} {car}")
-                    st.markdown(f"**리콜 사유:** {keyword}")
+                    st.markdown(f"**리콜 사유:** {recall_reason}")
 
                     # 생산 기간을 나열
                     prod_periods = group[['prod_period_from', 'prod_period_to']].apply(
