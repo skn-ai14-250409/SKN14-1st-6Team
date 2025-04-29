@@ -88,7 +88,7 @@ MySQL로 데이터베이스를 관리하여 효율적이고 직관적인 사용�
 <img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/imgs/readmenews_01.png?raw=true" width=500>
 
 - **수입 차량** (https://biz.heraldcorp.com/article/10461563?ref=naver)
-<img src="https://github.com/skn-ai14-250409/SKN14-1st-6Team/blob/main/Docs/imgs/readmenews_02.png?raw=true" width=500>
+<img src="https://raw.githubusercontent.com/skn-ai14-250409/SKN14-1st-6Team/refs/heads/main/Docs/imgs/readmenews_02.png" width=500>
 
 ### 1.4 목표
 자동차 리콜 이력 조회를 통해 차량 구매자와 소유자가 보다 신뢰성 있는 결정을 내릴 수 있도록 지원하는 시스템 개발
