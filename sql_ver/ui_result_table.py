@@ -1,5 +1,5 @@
 import streamlit as st
-
+import pandas as pd
 def show_results(df):
     # 컬럼명 변경 및 필요 작업들
     df = df.rename(columns={
@@ -13,6 +13,10 @@ def show_results(df):
         'keyword': '리콜사유',
         'extracted_keywords': '키워드'
     })
+
+    date_columns = ['생산날짜(부터)', '생산날짜(까지)', '리콜날짜']
+    for col in date_columns:
+        df[col] = pd.to_datetime(df[col], errors='coerce').dt.strftime('%Y-%m-%d')
 
     # 'EV_EV_id'와 'Domestic_international_DI_id' 컬럼을 삭제
     df = df.drop(columns=['EV_EV_id', 'Domestic_International_DI_id','keyword_full', 'keyword_short'], errors='ignore')
