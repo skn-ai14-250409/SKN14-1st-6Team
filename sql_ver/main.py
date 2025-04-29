@@ -98,6 +98,7 @@ filters = {
 # =========================
 # 🚗 첫 화면 구성
 with st.container():
+    st.markdown("<h1 style='text-align: center; color: red; font-weight: bold;'>Arbiter Recall</h1>", unsafe_allow_html=True)
     st.markdown("<h1 style='text-align: center; font-weight: bold;'>🚗 자동차 리콜 정보 시스템</h1>", unsafe_allow_html=True)
     st.markdown(
         "<p style='text-align: center; color: gray; font-size: 18px;'>제조사, 차종, 생산 기간 등으로 차량 리콜 이력을 손쉽게 검색하고, 통계까지 한눈에 확인하세요.</p>",
@@ -262,7 +263,7 @@ if search_button or st.session_state.search_triggered:
                 with cols[1]:
                     # 차종, 제조사, 리콜 사유
                     st.markdown(f"### {company} {car}")
-                    st.markdown(f"**리콜 사유:** {keyword[:100]}{'...' if len(keyword) > 100 else ''}")
+                    st.markdown(f"**리콜 사유:** {keyword}")
 
                     # 생산 기간을 나열
                     prod_periods = group[['prod_period_from', 'prod_period_to']].apply(
