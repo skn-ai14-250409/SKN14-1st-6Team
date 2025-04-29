@@ -111,10 +111,10 @@ Python, SQL, Streamlit을 활용한 데이터 파이프라인을 직접 구축�
 | 분류 | 기술                                                                                                                                                                                                                                                                                                            |
 |:---|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 언어 | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white)                                                                                                                                                                                                         |
-| 웹크롤링 | ![Selenium](https://img.shields.io/badge/Selenium-43B02A?style=for-the-badge&logo=Selenium&logoColor=white)                                                                                                                                                                                                   |
+| 웹크롤링 및 데이터 생성 | <img src="https://img.shields.io/badge/naver-03C75A?style=for-the-badge&logo=naver-&logoColor=white"> ![ChatGPT](https://img.shields.io/badge/chatGPT-74aa9c?style=for-the-badge&logo=openai&logoColor=white)                                                                                                                                                                                                  |
 | 데이터저장 | ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white)                                                                                                                                                                                                            |
-| 데이터 시각화 | ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=Pandas&logoColor=white) ![Matplotlib](https://img.shields.io/badge/Matplotlib-3776AB?style=for-the-badge)                                                                                                                       |
-| 화면구현 | ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white) ![HTML](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=HTML5&logoColor=white) ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=CSS3&logoColor=white) |
+| 데이터 시각화 | ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=Pandas&logoColor=white) ![Plotly Dash](https://img.shields.io/badge/plotly-3F4F75.svg?style=for-the-badge&logo=plotly&logoColor=white)                                                                                                                    |
+| 화면구현 | ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
 
 ### 2.2 프로젝트 구조
 
@@ -157,20 +157,17 @@ Python, SQL, Streamlit을 활용한 데이터 파이프라인을 직접 구축�
 
 ---
 ### 4.1 메인 페이지
-- 배너 1
-- 배너 2
-- 배너 3
+- 시각화 1 
+- 시각화 2
+- 시각화 3
 
 
 ### 4.2 세부 페이지_1
-- 배너 1
-- 배너 2
-- 배너 3
+- 배너 1 : 요약 table
 
 ### 4.2 세부 페이지_2
-- 배너 1
-- 배너 2
-- 배너 3
+- 배너 1 : 자동차 이미지
+- 배너 2 : 자동차 설명
 
 <br>
 
