@@ -78,7 +78,6 @@ def show_dashboard(df):
     )
     # ✨ Layout 설정
     fig.update_layout(
-        xaxis_tickangle=-30,
         xaxis_title="리콜 사유",
         yaxis_title="건수",
         title_x=0.5
